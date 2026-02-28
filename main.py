@@ -7,6 +7,8 @@ pin = Pin("LED", Pin.OUT)
 light = Pin(9, Pin.OUT)
 buzzer = Pin(12, Pin.OUT)
 toggled = False
+timer = 0.75
+longtimer = 1.5
 
 def toggle():
     global toggled
@@ -20,14 +22,25 @@ def toggle():
         toggled = True
 
 
+def longbeep():
+    toggle()
+    sleep(longtimer)
+    toggle()
+    sleep(timer)
+
+def shortbeep():
+    toggle()
+    sleep(timer)
+    toggle()
+    sleep(timer)
+
+def wordgap():
+    sleep(2)
+
 
 while True:
-
-  # Turn the buzzer on
-  toggle()
-  # Pause the program execution for 1 second
-  sleep(1)
-  # Turn the buzzer off
-  toggle()
-  # Pause the program execution for 1 second
-  sleep(1)
+    longbeep()
+    shortbeep()
+    shortbeep()
+    wordgap()
+    longbeep()
