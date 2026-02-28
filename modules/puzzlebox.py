@@ -49,6 +49,8 @@ class PuzzleBoxModule:
     def irq_handler(self, event: I2CTarget) -> None:
         """Handle an I2C event. This method should not be called manually."""
         flags = event.irq().flags()
+        if flags & I2CTarget.IRQ_END_READ:
+            self.mem[7] = 0x00  # Clear the status register when the host reads it.
         if flags & I2CTarget.IRQ_END_WRITE:
             if self.mem[0] == 0x01:
                 print("Received command 0x01: Hello, PuzzleBox!")
@@ -82,15 +84,14 @@ class PuzzleBoxModule:
 
     def complete(self) -> None:
         """Indicate that the player has completed the module."""
+        print("Sending completion to host...")
         if self.complete_pin is not None:
             self.complete_pin.on()
-        self.i2c.write(bytes([0x01]))
+        # Write status into mem[7] so the host can read it via readfrom_mem.
+        self.mem[7] = 0x01
 
     def strike(self) -> None:
+        print("Sending strike to host...")
         """Indicate that the player has made a mistake."""
-        self.i2c.write(bytes([0x02]))
-
-
-if __name__ == "__main__":
-    module = PuzzleBoxModule(42)
-    module.run(lambda: print(f"Module started! With {module.time_limit} seconds time limit."))
+        # Write status into mem[7] so the host can read it via readfrom_mem.
+        self.mem[7] = 0x02
