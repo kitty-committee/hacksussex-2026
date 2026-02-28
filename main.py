@@ -7,8 +7,8 @@ pin = Pin("LED", Pin.OUT)
 buttonlight = Pin(9, Pin.OUT)
 buzzer = Pin(12, Pin.OUT)
 toggled = False
-timer = 0.75
-longtimer = 1.5
+timer = 0.25
+longtimer = 1
 light = Pin(5, Pin.OUT)
 button = Pin(20, Pin.IN, Pin.PULL_DOWN)
 
@@ -91,7 +91,7 @@ def swapmorse():
 
     buttonlight.off()
 
-    temp = "hi"
+    temp = "e"
 
     morselist = []
     conversionlist = []
