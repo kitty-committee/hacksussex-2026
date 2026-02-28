@@ -28,9 +28,13 @@ def move_servo(position, min_pulse = 500, max_pulse = 2500):
 move_servo(0)
 
 while(angle < 180):
-    angle = angle+1
-    move_servo(angle)
-    sleep(0.1)
+    if(angle == 20):
+        angle = 10
+
+    else:
+        angle = angle+1
+        move_servo(angle)
+        sleep(0.5)
 
 
 
