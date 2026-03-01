@@ -4,9 +4,9 @@ from pico_i2c_lcd import I2cLcd
 import time
 import random
 # Define LCD I2C pins/BUS/address
-SDA = 14
-SCL = 15
-I2C_BUS = 1
+SDA = 16
+SCL = 17
+I2C_BUS = 0
 LCD_ADDR = 0x27
 
 led = Pin(9, Pin.OUT)
@@ -15,6 +15,7 @@ LCD_NUM_ROWS = 2
 LCD_NUM_COLS = 16
 
 # Set up LCD I2C
+time.sleep(1)
 lcdi2c = I2C(I2C_BUS, sda=Pin(SDA), scl=Pin(SCL), freq=400000)
 lcd = I2cLcd(lcdi2c, LCD_ADDR, LCD_NUM_ROWS, LCD_NUM_COLS)
 
