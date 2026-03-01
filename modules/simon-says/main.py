@@ -1,7 +1,10 @@
 from machine import Pin, PWM
 from utime import sleep
 from random import randint
+from puzzlebox import PuzzleBoxModule
 
+
+module = PuzzleBoxModule(9)
 
 bluebutton = Pin(19, Pin.IN, Pin.PULL_UP)
 redbutton = Pin(21, Pin.IN, Pin.PULL_UP)
@@ -19,7 +22,6 @@ listofflash = []
 listofinput = []
 listoftrue = []
 
-tempstrikes = 0
 
 def blueflash():
     bluelight.on()
@@ -43,6 +45,11 @@ def greenflash():
     greenlight.off()
 
 def flash():
+    redlight.off()
+    bluelight.off()
+    greenlight.off()
+    yellowlight.off()
+    
     while len(listofflash) < 5:
         number = randint(0,150500)
         number = number % 4
@@ -60,7 +67,7 @@ def flash():
             if x == "g":
                 greenflash()
         listoftrue = []
-        if(tempstrikes == 0):
+        if(module.strikes == 0):
             for item in listofflash:
                 if item == "b":
                     listoftrue.append("r")
@@ -71,7 +78,7 @@ def flash():
                 if item == "g":
                     listoftrue.append("y")
 
-        if(tempstrikes == 1):
+        if(module.strikes == 1):
             for item in listofflash:
                 if item == "b":
                     listoftrue.append("g")
@@ -82,7 +89,7 @@ def flash():
                 if item == "g":
                     listoftrue.append("b")
 
-        if(tempstrikes == 2):
+        if(module.strikes == 2):
             for item in listofflash:
                 if item == "b":
                     listoftrue.append("r")
@@ -121,15 +128,9 @@ def flash():
         i=0
         while i < len(listofflash):
             if listoftrue[i] != listofinput[i]:
-                print("(ｰ̀⤙ｰ́ )")
-                #add a fail here
+                module.strike()
                 
             i += 1
-    print("( ˶ˆᗜˆ˵ )")
+    module.complete()
 
-
-
-
-
-while True:
-    flash()
+module.run(flash)
