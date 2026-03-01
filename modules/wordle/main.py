@@ -3,13 +3,19 @@ from lcd_api import LcdApi
 from pico_i2c_lcd import I2cLcd
 import time
 import random
+from puzzlebox import PuzzleBoxModule
+
+
+module = PuzzleBoxModule(8,id=1,sda=18,scl=19,complete_pin=9)
+
+
+
 # Define LCD I2C pins/BUS/address
 SDA = 16
 SCL = 17
 I2C_BUS = 0
 LCD_ADDR = 0x27
 
-led = Pin(9, Pin.OUT)
 # Define LCD rows/columns
 LCD_NUM_ROWS = 2
 LCD_NUM_COLS = 16
@@ -115,10 +121,11 @@ def start():
                 
     ans = fatextra(templist,num)      
     if ans == "win":  
+        module.complete()
         lcd.clear()
         lcd.putstr(ans)
-        led.on()
     else:
+        module.strike()
         lcd.clear()
         lcd.putstr(ans)
         time.sleep(5)
@@ -126,4 +133,4 @@ def start():
 
     # Run our function
 
-start()
+module.run(start)
