@@ -1,4 +1,5 @@
 from machine import Pin, PWM
+import random
 from utime import sleep
 pin = Pin("LED", Pin.OUT)
 
@@ -31,6 +32,8 @@ dictionary_no_cheating = {
     'see':4,
 
 }
+
+wordlist = ["yes", "eye", "aye", "abs", "ebb", "eve", "bee", "all", "saw", "sat", "sit", "see"]
 
 translation = {'a': '.-', 
                'b': '-...', 
@@ -106,15 +109,13 @@ def wordgap():
 def lettergap():
     sleep((longtimer + timer) / 2)
 
-def swapmorse():
+def swapintomorse(x):
 
     buttonlight.off()
 
-    temp = "e"
-
     morselist = []
     conversionlist = []
-    list = temp
+    list = x
     for char in list:
         list.lower()
         morselist.append(translation.get(char, None))
@@ -140,14 +141,53 @@ def outputmorse(x):
 
     buttonlight.on()
 
+def askquestion():
+    num = random.randint(0,11)
+    word = wordlist[num]
+    print(word)
+    swapintomorse(word)
+    correctbutton = dictionary_no_cheating.get(word, None)
+    print(correctbutton)
+    while(input1.value() != 0 or input2.value() != 0 or input3.value() != 0 or input4.value() != 0):
+        if(correctbutton == 1 and input1.value() == 0):
+            #send correct
+            print("ʕっ•ᴥ•ʔっ")
+            sleep(20)
+        if(correctbutton == 2 and input2.value() == 0):
+                #send correct
+                print("ʕっ•ᴥ•ʔっ")
+                sleep(20)
+        if(correctbutton == 3 and input3.value() == 0):
+                #send correct
+                print("ʕっ•ᴥ•ʔっ")
+                sleep(20)
+        if(correctbutton == 4 and input4.value() == 0):
+                #send correct
+                print("ʕっ•ᴥ•ʔっ")
+                sleep(20)
+
+        if(correctbutton != 1 and input1.value() == 0):
+            #send incorrect
+            print("•`_´•")
+            sleep(20)
+        if(correctbutton != 2 and input2.value() == 0):
+                #send incorrect
+                print("•`_´•")
+                sleep(20)
+        if(correctbutton != 3 and input3.value() == 0):
+                #send incorrect
+                print("•`_´•")
+                sleep(20)
+        if(correctbutton != 4 and input4.value() == 0):
+                #send incorrect
+                print("•`_´•")
+                sleep(20)
+        if(button.value() == 1):
+            swapintomorse(word)
+
+
 buttonlight.on()
 turnoff()
+
 while True:
-    if input1.value() == 0:
-        print("one")
-    if input2.value() == 0:
-        print("two")
-    if input3.value() == 0:
-        print("three")
-    if input4.value() == 0:
-        print("four")
+    askquestion()
