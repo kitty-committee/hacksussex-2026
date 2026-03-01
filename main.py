@@ -11,7 +11,26 @@ timer = 0.25
 longtimer = 1
 light = Pin(5, Pin.OUT)
 button = Pin(20, Pin.IN, Pin.PULL_DOWN)
+input1 = Pin(16, Pin.IN, Pin.PULL_UP)
+input2 = Pin(17, Pin.IN, Pin.PULL_UP)
+input3 = Pin(18, Pin.IN, Pin.PULL_UP)
+input4 = Pin(19, Pin.IN, Pin.PULL_UP)
 
+dictionary_no_cheating = {
+    'yes':1,
+    'eye':2,
+    'aye':3,
+    'abs':4,
+    'ebb':1,
+    'eve':2,
+    'bee':3,
+    'all':4,
+    'saw':1,
+    'sat':2,
+    'sit':3,
+    'see':4,
+
+}
 
 translation = {'a': '.-', 
                'b': '-...', 
@@ -124,5 +143,11 @@ def outputmorse(x):
 buttonlight.on()
 turnoff()
 while True:
-    if button.value() == 1:
-        swapmorse()
+    if input1.value() == 0:
+        print("one")
+    if input2.value() == 0:
+        print("two")
+    if input3.value() == 0:
+        print("three")
+    if input4.value() == 0:
+        print("four")
