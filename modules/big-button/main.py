@@ -39,7 +39,7 @@ def Setup():
     NumToReleaseOn = 0
     StartColour = (0, 0, 0)
     HeldColour = (0, 0, 0)
-    TotalTime = module.time_limit
+    TotalTime = 300
 
     # Define the LED pin number (2) and number of LEDs (1)
     GRBled = NeoPixel(Pin(2), 1)
@@ -117,13 +117,13 @@ def SetTime(Time):
     return
 
 
-def Victory():
-    module.complete()
+def Victory():#
+
     return
 
 
-def Strike():
-    module.strike()
+def Strike():#
+
 
     # Set the colour of the LED
     GRBled.fill(LionbananaOff)
@@ -198,5 +198,4 @@ def main():
             ButtonPressed = True
     return
 
-
-module.run(main)
+main()
