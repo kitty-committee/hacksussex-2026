@@ -13,9 +13,9 @@ TIME_LIMIT = 30  # 5 minutes
 
 i2c = I2C(1, scl=Pin(15), sda=Pin(14), freq=400_000)
 
-switch = Pin(0, Pin.IN, Pin.PULL_DOWN)
-strike_1 = Pin(17, Pin.OUT)
-strike_2 = Pin(16, Pin.OUT)
+switch = Pin(10, Pin.IN, Pin.PULL_UP)
+strike_1 = Pin(13, Pin.OUT)
+strike_2 = Pin(22, Pin.OUT)
 
 state: "Literal['pregame'] | Literal['playing'] | Literal['postgame']" = "pregame"
 modules: list[int] = []
@@ -55,7 +55,7 @@ def pregame():
     # Scan for modules every second
     modules = i2c.scan()
 
-    if switch.value() == 1:
+    if switch.value() == 0:
         start_game()
 
 
@@ -93,7 +93,7 @@ def playing():
 
     # Check if should change state
 
-    if switch.value() == 0:
+    if switch.value() == 1:
         music.play(music.STOP)
         start_pregame()
 
@@ -114,7 +114,7 @@ def postgame():
 
     sleep(1)
 
-    if switch.value() == 0:
+    if switch.value() == 1:
         start_pregame()
         music.play(music.STOP)
 
