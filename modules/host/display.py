@@ -1,8 +1,8 @@
 # Imports
-import random
-from utime import sleep
-from utime import time
 from machine import Pin
+from utime import sleep
+
+DELAY = 0.0025
 
 Ones = 0
 Tens = 0
@@ -25,37 +25,44 @@ SegF = Pin(7, Pin.OUT)
 SegG = Pin(8, Pin.OUT)
 DecP = Pin(9, Pin.OUT)
 
+
 def GetMinutes(Time):
     global Minutes
     Minutes = Time // 60
     return
+
 
 def GetSeconds(Time):
     global Seconds
     Seconds = Time % 60
     return
 
+
 def GetOnes():
     global Ones
     Ones = Seconds % 10
     return
+
 
 def GetTens():
     global Tens
     Tens = Seconds // 10
     return
 
+
 def GetHundreds():
     global Hundreds
     Hundreds = Minutes % 10
     return
+
 
 def GetThousands():
     global Thousands
     Thousands = Minutes // 10
     return
 
-def DisplayNum(NumToDisplay:int, Digit:int, DP:bool):
+
+def DisplayNum(NumToDisplay: int, Digit: int, DP: bool):
     if Digit == 1:
         TempPin = First
     elif Digit == 2:
@@ -152,56 +159,63 @@ def DisplayNum(NumToDisplay:int, Digit:int, DP:bool):
         SegF.on()
         SegG.on()
     return
-        
 
 
 def TimeToDisplay(Time):
     GetMinutes(Time)
     GetSeconds(Time)
-    
+
     # Display the ones column
     GetOnes()
     DisplayNum(Ones, 4, False)
-    sleep(0.0025)
+    sleep(DELAY)
     Fourth.on()
 
     # Display the tens column
     GetTens()
     DisplayNum(Tens, 3, False)
-    sleep(0.0025)
+    sleep(DELAY)
     Third.on()
 
     # Display the hundreds column
     GetHundreds()
     DisplayNum(Hundreds, 2, True)
-    sleep(0.0025)
+    sleep(DELAY)
     Second.on()
 
     # Display the thousands column
     GetThousands()
     DisplayNum(Thousands, 1, False)
-    sleep(0.0025)
+    sleep(DELAY)
     First.on()
 
-def DisplayNumbers(Time):
-    
+
+def DisplayNumbers(num):
+
     # Display the ones column
-    DisplayNum(Time % 10, 4, False)
-    sleep(0.0025)
+    DisplayNum(num % 10, 4, False)
+    sleep(DELAY)
     Fourth.on()
 
     # Display the tens column
-    DisplayNum((Time % 100) // 10, 3, False)
-    sleep(0.0025)
+    DisplayNum((num % 100) // 10, 3, False)
+    sleep(DELAY)
     Third.on()
 
     # Display the hundreds column
-    DisplayNum((Time // 100) % 10, 2, False)
-    sleep(0.0025)
+    DisplayNum((num // 100) % 10, 2, False)
+    sleep(DELAY)
     Second.on()
 
     # Display the thousands column
     GetThousands()
-    DisplayNum(Time // 1000, 1, False)
-    sleep(0.0025)
+    DisplayNum(num // 1000, 1, False)
+    sleep(DELAY)
     First.on()
+
+
+def reset_display():
+    First.on()
+    Second.on()
+    Third.on()
+    Fourth.on()

@@ -24,6 +24,9 @@ class PuzzleBoxModule:
     """The pin used to indicate that the module is complete."""
     complete_pin: None | Pin
 
+    """The number of total strikes this game."""
+    strikes: int = 0
+
     mem: bytearray
 
     def __init__(
@@ -56,10 +59,18 @@ class PuzzleBoxModule:
                 print("Received command 0x01: Hello, PuzzleBox!")
                 self.time_limit = int.from_bytes(self.mem[1:3], "little")
                 self.started = True
+                self.strikes = 0
 
             elif self.mem[0] == 0x02:
                 print("Received command 0x02: Goodbye, PuzzleBox!")
                 reset()
+
+            elif self.mem[0] == 0x03:
+                print("Received command 0x03: Strike!")
+                self.strikes = int.from_bytes(self.mem[1:3], "little")
+
+            elif self.mem[0] == 0x00:
+                pass  # Noop instruction so ignore
 
             else:
                 print(f"Received unknown command: 0x{self.mem[0]:02x}")
@@ -91,7 +102,13 @@ class PuzzleBoxModule:
         self.mem[7] = 0x01
 
     def strike(self) -> None:
-        print("Sending strike to host...")
         """Indicate that the player has made a mistake."""
+        print("Sending strike to host...")
         # Write status into mem[7] so the host can read it via readfrom_mem.
         self.mem[7] = 0x02
+
+    def lose(self) -> None:
+        """Indicate that the player has lost."""
+        print("Sending lose to host...")
+        # Write status into mem[7] so the host can read it via readfrom_mem.
+        self.mem[7] = 0x03
