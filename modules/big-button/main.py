@@ -112,12 +112,10 @@ def SetTime(Time):
 
 def Victory():
     # main module call
-    print("VICTORY")
     return
 
 def Strike():
     # main module call
-    print("STRIKE")
     return
 
 
@@ -140,7 +138,6 @@ def main(TempTime):
             if (time() - start) > 0.1:
                 ButtonPressed = False
                 SetTime(releaseTime)
-                print("Time to boom?")
                 if not NeedToHold:
                     Strike()
                 elif NumToReleaseOn == 0 and not gotStruck and NeedToHold:
@@ -166,7 +163,6 @@ def main(TempTime):
 
                 # Display the colour
                 GRBled.write()
-            print("Button Pressed")
             releaseTime = time() - GameStart
             sleep(0.2)
             if BigButton.value() != 0 and not NeedToHold and not ButtonPressed:
@@ -177,7 +173,6 @@ def main(TempTime):
                 gotStruck = True
             start = time()
             ButtonPressed = True
-            print(releaseTime)
     return
         
 
