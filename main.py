@@ -5,17 +5,18 @@ pin = Pin("LED", Pin.OUT)
 
 # Create a Pin object named "buzzer" connected to GPIO pin 16 as an output
 
-buttonlight = Pin(9, Pin.OUT)
-buzzer = Pin(12, Pin.OUT)
+buttonlight = Pin(2, Pin.OUT)
+buzzer = Pin(9, Pin.OUT)
 toggled = False
 timer = 0.25
 longtimer = 1
 light = Pin(5, Pin.OUT)
-button = Pin(20, Pin.IN, Pin.PULL_DOWN)
-input1 = Pin(16, Pin.IN, Pin.PULL_UP)
-input2 = Pin(17, Pin.IN, Pin.PULL_UP)
-input3 = Pin(18, Pin.IN, Pin.PULL_UP)
-input4 = Pin(19, Pin.IN, Pin.PULL_UP)
+statuslight = Pin(10, Pin.OUT)
+button = Pin(20, Pin.IN, Pin.PULL_UP)
+input1 = Pin(18, Pin.IN, Pin.PULL_UP)
+input2 = Pin(19, Pin.IN, Pin.PULL_UP)
+input3 = Pin(21, Pin.IN, Pin.PULL_UP)
+input4 = Pin(22, Pin.IN, Pin.PULL_UP)
 
 dictionary_no_cheating = {
     'yes':1,
@@ -152,22 +153,30 @@ def askquestion():
         if(correctbutton == 1 and input1.value() == 0):
             #send correct
             print("ʕっ•ᴥ•ʔっ")
+            statuslight.on()
+            buttonlight.off()
             sleep(20)
         if(correctbutton == 2 and input2.value() == 0):
                 #send correct
                 print("ʕっ•ᴥ•ʔっ")
+                statuslight.on()
                 sleep(20)
         if(correctbutton == 3 and input3.value() == 0):
                 #send correct
+                statuslight.on()
                 print("ʕっ•ᴥ•ʔっ")
+                buttonlight.off()
                 sleep(20)
         if(correctbutton == 4 and input4.value() == 0):
                 #send correct
+                statuslight.on()
                 print("ʕっ•ᴥ•ʔっ")
+                buttonlight.off()
                 sleep(20)
 
         if(correctbutton != 1 and input1.value() == 0):
             #send incorrect
+
             print("•`_´•")
             sleep(20)
         if(correctbutton != 2 and input2.value() == 0):
@@ -182,11 +191,11 @@ def askquestion():
                 #send incorrect
                 print("•`_´•")
                 sleep(20)
-        if(button.value() == 1):
+        if(button.value() == 0):
             swapintomorse(word)
 
-
-buttonlight.on()
+statuslight.off()
+buttonlight.off()
 turnoff()
 
 while True:
