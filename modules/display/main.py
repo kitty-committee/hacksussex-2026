@@ -205,6 +205,3 @@ def DisplayNumbers(Time):
     DisplayNum(Time // 1000, 1, False)
     sleep(0.0025)
     First.on()
-
-while True:
-    DisplayNumbers(2530)
