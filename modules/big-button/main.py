@@ -20,13 +20,15 @@ HeldColour = (0,0,0)
 # Colours
 LionbananaBlue = (20, 20, 100)
 LionbananaPink = (20, 100, 20)
-LionbananaYellow = (100, 100, 0)
+LionbananaYellow = (80, 120, 0)
 LionbananaGreen = (100, 0, 0)
 LionbananaOff = (0, 0, 0)
         
 def Setup(tempTime):
     global StartColour, TotalTime, NeedToHold, GRBled, BigButton, NumToReleaseOn, HeldColour, ButtonPressed, GameStart
     GameStart = time()
+    LED = Pin(28, Pin.OUT)
+    LED.on()
     NeedToHold = False
     ButtonPressed = False
     NumToReleaseOn = 0
@@ -62,6 +64,7 @@ def Setup(tempTime):
         # Pink - Tap
         StartColour = LionbananaPink
         NeedToHold = False
+    elif tempNum == 5:
         # Off - Hold
         StartColour = LionbananaOff
         NeedToHold = True
@@ -136,7 +139,7 @@ def main(TempTime):
             # On release
             if (time() - start) > 0.1:
                 ButtonPressed = False
-                SetTime(time() - TotalTime)
+                SetTime(releaseTime)
                 print("Time to boom?")
                 if not NeedToHold:
                     Strike()
@@ -164,6 +167,7 @@ def main(TempTime):
                 # Display the colour
                 GRBled.write()
             print("Button Pressed")
+            releaseTime = time() - GameStart
             sleep(0.2)
             if BigButton.value() != 0 and not NeedToHold and not ButtonPressed:
                 Victory()
@@ -173,6 +177,7 @@ def main(TempTime):
                 gotStruck = True
             start = time()
             ButtonPressed = True
+            print(releaseTime)
     return
         
 
