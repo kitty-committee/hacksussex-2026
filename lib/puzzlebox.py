@@ -91,7 +91,13 @@ class PuzzleBoxModule:
         self.mem[7] = 0x01
 
     def strike(self) -> None:
-        print("Sending strike to host...")
         """Indicate that the player has made a mistake."""
+        print("Sending strike to host...")
         # Write status into mem[7] so the host can read it via readfrom_mem.
         self.mem[7] = 0x02
+
+    def lose(self) -> None:
+        """Indicate that the player has lost."""
+        print("Sending lose to host...")
+        # Write status into mem[7] so the host can read it via readfrom_mem.
+        self.mem[7] = 0x03

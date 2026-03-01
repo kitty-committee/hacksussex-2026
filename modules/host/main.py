@@ -87,6 +87,8 @@ def playing():
             strike_1.value(strikes >= 1)
             strike_2.value(strikes >= 2)
             music.play(music.STRIKE)
+        elif status == 0x03:
+            strikes = 3  # Immediate loss
 
     # Check if should change state
 
@@ -116,6 +118,7 @@ def postgame():
         music.play(music.STOP)
 
 
+display.reset_display()
 start_pregame()
 while True:
     if state == "pregame":

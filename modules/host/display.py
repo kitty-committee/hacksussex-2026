@@ -212,3 +212,10 @@ def DisplayNumbers(num):
     DisplayNum(num // 1000, 1, False)
     sleep(DELAY)
     First.on()
+
+
+def reset_display():
+    First.on()
+    Second.on()
+    Third.on()
+    Fourth.on()
