@@ -1,7 +1,7 @@
 from machine import PWM, Pin
 from utime import sleep_ms
 
-pin = Pin(1, Pin.OUT)  # create a Pin object for the pin you want to use
+pin = Pin(12, Pin.OUT)  # create a Pin object for the pin you want to use
 
 NIER = [
     (587, 300),  # D5
