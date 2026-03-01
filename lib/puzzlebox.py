@@ -61,6 +61,9 @@ class PuzzleBoxModule:
                 print("Received command 0x02: Goodbye, PuzzleBox!")
                 reset()
 
+            elif self.mem[0] == 0x00:
+                pass # Noop instruction so ignore
+
             else:
                 print(f"Received unknown command: 0x{self.mem[0]:02x}")
 

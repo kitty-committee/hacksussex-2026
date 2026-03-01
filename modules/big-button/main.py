@@ -4,6 +4,11 @@ from utime import sleep
 from utime import time
 from machine import Pin
 from neopixel import NeoPixel
+from puzzlebox import PuzzleBoxModule
+
+module = PuzzleBoxModule(10)
+pin = Pin(9, Pin.OUT)
+pin.on()
 
 NeedToHold = False
 ButtonPressed = False
@@ -24,7 +29,7 @@ LionbananaYellow = (80, 120, 0)
 LionbananaGreen = (100, 0, 0)
 LionbananaOff = (0, 0, 0)
         
-def Setup(tempTime):
+def Setup():
     global StartColour, TotalTime, NeedToHold, GRBled, BigButton, NumToReleaseOn, HeldColour, ButtonPressed, GameStart
     GameStart = time()
     LED = Pin(28, Pin.OUT)
@@ -34,7 +39,7 @@ def Setup(tempTime):
     NumToReleaseOn = 0
     StartColour = (0,0,0)
     HeldColour = (0,0,0)
-    TotalTime = tempTime
+    TotalTime = module.time_limit
 
     # Define the LED pin number (2) and number of LEDs (1)
     GRBled = NeoPixel(Pin(2), 1)
@@ -111,18 +116,24 @@ def SetTime(Time):
     return
 
 def Victory():
-    # main module call
+    module.complete()
     return
 
 def Strike():
-    # main module call
+    module.strike()
+    
+    # Set the colour of the LED 
+    GRBled.fill(LionbananaOff)
+
+    # Display the colour
+    GRBled.write()
     return
 
 
-def main(TempTime):
+def main():
     global ButtonPressed
     # Sets up the module
-    Setup(TempTime)
+    Setup()
 
     # Set the colour of the LED 
     GRBled.fill(StartColour)
@@ -137,7 +148,7 @@ def main(TempTime):
             # On release
             if (time() - start) > 0.1:
                 ButtonPressed = False
-                SetTime(releaseTime)
+                SetTime(TotalTime - abs(releaseTime))
                 if not NeedToHold:
                     Strike()
                 elif NumToReleaseOn == 0 and not gotStruck and NeedToHold:
@@ -163,7 +174,7 @@ def main(TempTime):
 
                 # Display the colour
                 GRBled.write()
-            releaseTime = time() - GameStart
+            releaseTime = GameStart - time()
             sleep(0.2)
             if BigButton.value() != 0 and not NeedToHold and not ButtonPressed:
                 Victory()
@@ -176,4 +187,4 @@ def main(TempTime):
     return
         
 
-main(117)
+module.run(main)
