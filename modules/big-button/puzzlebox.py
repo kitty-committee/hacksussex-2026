@@ -24,6 +24,9 @@ class PuzzleBoxModule:
     """The pin used to indicate that the module is complete."""
     complete_pin: None | Pin
 
+    """The number of total strikes this game."""
+    strikes: int = 0
+
     mem: bytearray
 
     def __init__(
@@ -56,13 +59,18 @@ class PuzzleBoxModule:
                 print("Received command 0x01: Hello, PuzzleBox!")
                 self.time_limit = int.from_bytes(self.mem[1:3], "little")
                 self.started = True
+                self.strikes = 0
 
             elif self.mem[0] == 0x02:
                 print("Received command 0x02: Goodbye, PuzzleBox!")
                 reset()
 
+            elif self.mem[0] == 0x03:
+                print("Received command 0x03: Strike!")
+                self.strikes = int.from_bytes(self.mem[1:3], "little")
+
             elif self.mem[0] == 0x00:
-                pass # Noop instruction so ignore
+                pass  # Noop instruction so ignore
 
             else:
                 print(f"Received unknown command: 0x{self.mem[0]:02x}")

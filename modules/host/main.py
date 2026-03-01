@@ -83,6 +83,7 @@ def playing():
         # Module strike
         elif status == 0x02:
             strikes += 1
+            send_event(0x03, int.to_bytes(strikes, 2, "little"))  # Send strike event to all modules
             # Update strike indicators
             strike_1.value(strikes >= 1)
             strike_2.value(strikes >= 2)
