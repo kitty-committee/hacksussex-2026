@@ -20,7 +20,7 @@ HeldColour = (0,0,0)
 # Colours
 LionbananaBlue = (20, 20, 100)
 LionbananaPink = (20, 100, 20)
-LionbananaYellow = (100, 100, 0)
+LionbananaYellow = (80, 120, 0)
 LionbananaGreen = (100, 0, 0)
 LionbananaOff = (0, 0, 0)
         
@@ -64,6 +64,7 @@ def Setup(tempTime):
         # Pink - Tap
         StartColour = LionbananaPink
         NeedToHold = False
+    elif tempNum == 5:
         # Off - Hold
         StartColour = LionbananaOff
         NeedToHold = True
@@ -74,19 +75,19 @@ def Setup(tempTime):
     if tempNum == 1:
         # Yellow - Release on 3
         HeldColour = LionbananaYellow
-        NumToReleaseOn = 4
+        NumToReleaseOn = 3
     elif tempNum == 2:
         # Blue - Release on 2
         HeldColour = LionbananaBlue
-        NumToReleaseOn = 3
+        NumToReleaseOn = 2
     elif tempNum == 3:
         # Green - Release on 5
         HeldColour = LionbananaGreen
-        NumToReleaseOn = 6
+        NumToReleaseOn = 5
     elif tempNum == 4:
         # Pink - Release on 8
         HeldColour = LionbananaPink
-        NumToReleaseOn = 7
+        NumToReleaseOn = 8
     elif tempNum == 5:
         # Off - Release Anytime
         HeldColour = LionbananaOff
@@ -138,7 +139,7 @@ def main(TempTime):
             # On release
             if (time() - start) > 0.1:
                 ButtonPressed = False
-                SetTime(time() - GameStart)
+                SetTime(releaseTime)
                 print("Time to boom?")
                 if not NeedToHold:
                     Strike()
@@ -166,6 +167,7 @@ def main(TempTime):
                 # Display the colour
                 GRBled.write()
             print("Button Pressed")
+            releaseTime = time() - GameStart
             sleep(0.2)
             if BigButton.value() != 0 and not NeedToHold and not ButtonPressed:
                 Victory()
@@ -175,7 +177,7 @@ def main(TempTime):
                 gotStruck = True
             start = time()
             ButtonPressed = True
-            print(time() - GameStart)
+            print(releaseTime)
     return
         
 
